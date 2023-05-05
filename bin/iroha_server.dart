@@ -1,5 +1,14 @@
-import 'package:iroha_server/iroha_server.dart' as iroha_server;
+import 'package:hotreloader/hotreloader.dart';
 
-void main(List<String> arguments) {
-  print('Hello world: ${iroha_server.calculate()}!');
+import 'package:iroha_server/config/export.dart';
+import 'package:iroha_server/di/di.dart';
+
+main() async {
+  await HotReloader.create(
+      onAfterReload: (ctx) =>
+          logger.info('HotReload Result: ${ctx.result}\n${ctx.reloadReports}'));
+
+  final server = await initializeServer();
+
+  await server.run();
 }
